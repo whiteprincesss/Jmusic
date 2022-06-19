@@ -30,4 +30,6 @@ driver = webdriver.Chrome(options=options)
 driver.get(f'https://www.melon.com/song/detail.htm?songId={songid}')
 
 lyric = driver.find_element_by_css_selector('.lyric')
-print(lyric.text)
+f = open(f'{song}_{artist}.txt', 'w')
+f.write(lyric.text)
+f.close()
