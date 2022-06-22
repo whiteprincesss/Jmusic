@@ -57,15 +57,3 @@ audiofile.tag.artist  = artist
 
 audiofile.tag.save()
 
-driver = webdriver.Chrome(options=options)
-driver.get(f'https://www.melon.com/search/total/index.htm?q={song_name}+{artist}')
-
-div = driver.find_element_by_css_selector('.ellipsis')
-atag = div.find_element_by_tag_name('a')
-songid = atag.get_attribute('href')
-songid = songid.split(';')[-2].split('(')[-1][1:-2]
-driver = webdriver.Chrome(options=options)
-driver.get(f'https://www.melon.com/song/detail.htm?songId={songid}')
-
-lyric = driver.find_element_by_css_selector('.lyric')
-print(lyric.text)

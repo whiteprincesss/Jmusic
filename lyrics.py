@@ -7,7 +7,7 @@ import chromedriver_autoinstaller
 import warnings
 import eyed3
 import time
-
+from urllib import request
 
 warnings.filterwarnings("ignore")
 chromedriver_autoinstaller.install()
@@ -29,9 +29,10 @@ songid = songid.split(';')[-2].split('(')[-1][1:-2]
 driver = webdriver.Chrome(options=options)
 driver.get(f'https://www.melon.com/song/detail.htm?songId={songid}')
 
-lyric = driver.find_element_by_css_selector('.lyric')
-f = open(f'{song}_{artist}.txt', 'w')
-f.write(lyric.text)
-f.close()
+img = driver.find_element_by_css_selector('.image_typeAll')
+img = img.find_element_by_tag_name('img')
+img_url = img.get_attribute('src')
 
-print(lyric.text)
+request.urlretrieve(img_url, f'{artist}_{song}.jpg')
+
+driver.close()
