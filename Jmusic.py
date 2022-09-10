@@ -43,7 +43,7 @@ yt.streams.filter(only_audio=True).first().download()
 title = yt.title
 
 new_file = glob('*.mp4')[0]
-os.rename(new_file, f'{song_name}.mp4')
+os.rename(new_file, f'{song_name}_{artist}.mp4')
 
 _filename = song_name
 _dir = ''
@@ -64,8 +64,7 @@ if os.path.isfile(output_name) == False:
     driver.close()
 
     driver = webdriver.Chrome(options=options)
-    driver.get(f'https://www.melon.com/search/total/index.htm?q={song_name}+{artist}')
-
+    driver.get(f'https://www.melon.com/search/song/index.htm?q={song_name}+{artist}')
     try:
         # 노래 존재 여부
         div = driver.find_element_by_css_selector('.ellipsis')
@@ -91,7 +90,7 @@ if os.path.isfile(output_name) == False:
         os.chdir('..')
         os.chdir('thumbnail')
 
-        request.urlretrieve(img_url, f'{artist}_{song_name}.jpg')
+        request.urlretrieve(img_url, f'{song_name}_{artist}.png')
     except:
         print('노래가 없습니다.')
         os.remove(output_name)

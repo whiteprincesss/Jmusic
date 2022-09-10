@@ -2,7 +2,9 @@
 /Songs/
 /Lyrics/
 /thumbnail/
+/ui/
 
 # file
 test.py
-ytdownloader.py
+test.txt
+textindexer.py
