@@ -12,6 +12,7 @@ import sqlite3
 import getpass
 from tkinter import *
 from PIL import ImageTk
+from selenium.webdriver.common.by import By
 
 now_dir = os.getcwd()
 user = getpass.getuser()
@@ -57,10 +58,10 @@ def song_download(song_name, artist):
     driver = webdriver.Chrome(options=options)
     driver.get(f'https://www.youtube.com/results?search_query={search}')
 
-    div = driver.find_element_by_id('dismissible')
-    ytd = div.find_element_by_tag_name('ytd-thumbnail')
+    div = driver.find_element(By.ID, "dismissible")
+    ytd = div.find_element(By.TAG_NAME, "ytd-thumbnail")
 
-    atag = ytd.find_element_by_tag_name('a')
+    atag = ytd.find_element(By.TAG_NAME, "a")
     video_url = atag.get_attribute('href')
 
     yt = YouTube(video_url)
@@ -98,15 +99,15 @@ def etc_download(song_name, artist):
     driver.get(f'https://www.melon.com/search/song/index.htm?q={song_name}+{artist}')
     try:
         # 노래 존재 여부
-        div = driver.find_element_by_css_selector('.ellipsis')
-        atag = div.find_element_by_tag_name('a')
+        div = driver.find_element(By.CSS_SELECTOR,".ellipsis")
+        atag = div.find_element(By.TAG_NAME, "a")
         songid = atag.get_attribute('href')
         songid = songid.split(';')[-2].split('(')[-1][1:-2]
         driver = webdriver.Chrome(options=options)
         driver.get(f'https://www.melon.com/song/detail.htm?songId={songid}')
         
         # 노래 가사 저장
-        lyric = driver.find_element_by_css_selector('.lyric')
+        lyric = driver.find_element(By.CSS_SELECTOR, '.lyric')
         os.chdir(now_dir)
         os.chdir('Lyrics')
         f = open(f'{song_name}_{artist}.txt', 'w', encoding='utf-8')
@@ -114,8 +115,8 @@ def etc_download(song_name, artist):
         f.close()
 
         # 앨범 썸네일 다운
-        img = driver.find_element_by_css_selector('.image_typeAll')
-        img = img.find_element_by_tag_name('img')
+        img = driver.find_element(By.CSS_SELECTOR, '.image_typeAll')
+        img = img.find_element(By.TAG_NAME, 'img')
         img_url = img.get_attribute('src')
 
         os.chdir(now_dir)
